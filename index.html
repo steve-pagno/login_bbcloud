@@ -173,19 +173,43 @@
             color: #0511F2;
         }
 
-        @media (max-width: 768px) {
+        /* Estilos para responsividade (mobile) */
+        @media (max-width: 767.98px) {
             .left-column {
                 display: none;
+                /* Oculta a primeira coluna (imagem e frase) em telas pequenas */
             }
 
             .form-container {
                 justify-content: center;
+                /* Centraliza o formulário horizontalmente */
                 height: auto;
+                /* Remove altura fixa para melhor adaptação do conteúdo */
                 max-height: none;
+                padding-top: 20px;
+                /* Adiciona um pequeno padding no topo para respiro */
+            }
+
+            .flip-container {
+                width: 90%;
+                /* Ocupa 90% da largura da tela mobile */
             }
 
             .form {
-                width: 90%;
+                width: 100%;
+                /* Faz o formulário interno ocupar 100% do flip-container */
+                padding: 20px !important;
+                /* Reduz o padding interno do formulário no mobile, se necessário */
+            }
+
+            .back-content {
+                padding: 0 5px;
+                /* Ajusta o padding do conteúdo interno no mobile */
+            }
+
+            .text-center.mb-2 {
+                margin-bottom: 5px !important;
+                /* Ajusta a margem do logo no topo */
             }
         }
     </style>
