@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Big Boss Cloud</title>
+    <style>
+        body {
+            background: linear-gradient(to top, #002156, #005EF5);
+        }
+
+        img {
+            width: 30%;
+        }
+
+        .form {
+            width: 75%;
+            background-color: #fff;
+            border-radius: 15px;
+        }
+
+        .form h2 {
+            color: #0511F2;
+        }
+
+        .button {
+            background-color: #0511F2;
+            border-radius: 50px;
+            color: #fff;
+            transition: transform 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #00078a;
+            transform: scale(1.05);
+            color: #fff;
+        }
+
+        .left-img {
+            width: 140%;
+            margin-left: -120px;
+        }
+
+        .form-container {
+            display: flex;
+            justify-content: flex-end;
+            height: 500px;
+            max-height: 100vh;
+        }
+
+        .flip-container {
+            perspective: 1000px;
+            width: 75%;
+            height: 100%;
+            position: relative;
+        }
+
+        .flipper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            transform: rotateY(0deg);
+        }
+
+        .flipper.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .front-face {
+            z-index: 2;
+            transform: rotateY(0deg);
+            justify-content: center;
+        }
+
+        .back-face {
+            transform: rotateY(180deg);
+        }
+
+        .back-content {
+            position: relative;
+            display: none;
+            height: 100%;
+            flex-direction: column;
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        .back-content.active {
+            display: flex;
+        }
+
+        #registerForm.active {
+            overflow-y: auto;
+            justify-content: flex-start;
+        }
+
+        #forgotPasswordForm.active {
+            justify-content: center;
+        }
+
+        .form-input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .form-input-content {
+            position: relative;
+        }
+
+        .form-input-content input {
+            width: 100%;
+            padding: 5px 0 5px 0;
+            border: none;
+            border-bottom: 2px solid #ccc;
+            outline: none;
+            font-size: 16px;
+            background-color: transparent;
+            transition: border-bottom-color 0.3s ease;
+            padding-right: 30px;
+        }
+
+        .form-input-content label {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            color: #999;
+            pointer-events: none;
+            transition: all 0.2s ease;
+            font-size: 16px;
+        }
+
+        .form-input-content input:focus+label,
+        .form-input-content input:valid+label {
+            top: 0;
+            transform: translateY(-50%);
+            font-size: 12px;
+            color: #0511F2;
+        }
+
+        .form-input-content input:focus {
+            border-bottom-color: #0511F2;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 0px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #999;
+            font-size: 1rem;
+            z-index: 10;
+        }
+
+        .form-input-content input:focus+.toggle-password {
+            color: #0511F2;
+        }
+
+        @media (max-width: 768px) {
+            .left-column {
+                display: none;
+            }
+
+            .form-container {
+                justify-content: center;
+                height: auto;
+                max-height: none;
+            }
+
+            .form {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="text-center mb-2">
+        <img class="rounded" src="img/Big Boss Cloud.png" alt="" srcset="">
+    </div>
+
+    <div class="container">
+        <div class="row align-items-center">
+
+            <div class="col left-column">
+                <h2 class="text-center text-light">Um ecossistema completo com soluções integradas.</h2>
+                <img class="left-img" src="img/img.png" alt="">
+            </div>
+
+            <div class="col form-container">
+                <div class="flip-container" id="flipCard">
+                    <div class="flipper">
+                        <div class="face front-face form p-5" id="loginForm">
+                            <h2 class="text-center p-3">Acesse sua conta</h2>
+
+                            <div class="form-input-group">
+                                <div class="form-input-content">
+                                    <input type="email" id="login-email" required>
+                                    <label for="login-email">E-mail</label>
+                                </div>
+                            </div>
+
+                            <div class="form-input-group">
+                                <div class="form-input-content">
+                                    <input type="password" id="login-senha" required>
+                                    <label for="login-senha">Senha</label>
+                                    <i class="fas fa-eye toggle-password" data-target="login-senha"></i>
+                                </div>
+                            </div>
+
+                            <div class="text-center mb-3">
+                                <input class="btn button" type="submit" value="Acessar conta">
+                            </div>
+                            <p>Esqueceu a senha? <a href="#" id="link-forgot-password">Clique aqui</a></p>
+                            <p>Não tem cadastro? <a href="#" id="link-register">Clique aqui</a></p>
+                        </div>
+
+                        <div class="face back-face form p-5">
+                            <div class="back-content" id="forgotPasswordForm">
+                                <h2 class="text-center p-3">Recuperar Senha</h2>
+                                <div class="mb-3">
+                                    <p class="text-secondary text-center">Informe seu e-mail para receber a nova senha.
+                                    </p>
+                                    <div class="form-input-group">
+                                        <div class="form-input-content">
+                                            <input type="email" id="recovery-email" required>
+                                            <label for="recovery-email">E-mail</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center mb-3">
+                                    <input class="btn button" type="submit" value="Recuperar senha">
+                                </div>
+                                <p>Lembrou a senha? <a href="#" id="link-to-login-from-password">Clique aqui</a></p>
+                            </div>
+
+                            <div class="back-content pt-1" id="registerForm">
+                                <h2 class="text-center p-3">Crie sua conta</h2>
+                                <p class="text-secondary text-center">E tenha um teste <strong>grátis</strong> de 7
+                                    dias!
+                                </p>
+                                <div class="mb-3">
+                                    <div class="form-input-group">
+                                        <div class="form-input-content">
+                                            <input type="text" id="register-nome" required>
+                                            <label for="register-nome">Nome Completo</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-input-group">
+                                        <div class="form-input-content">
+                                            <input type="email" id="register-email" required>
+                                            <label for="register-email">E-mail</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-input-group">
+                                        <div class="form-input-content">
+                                            <input type="number" id="register-telefone" required>
+                                            <label for="register-telefone">Telefone</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-input-group">
+                                        <div class="form-input-content">
+                                            <input type="password" id="register-senha" required>
+                                            <label for="register-senha">Senha</label>
+                                            <i class="fas fa-eye toggle-password" data-target="register-senha"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-input-group">
+                                        <div class="form-input-content password">
+                                            <input type="password" id="register-confirm-senha" required>
+                                            <label for="register-confirm-senha">Confirme sua senha</label>
+                                            <i class="fas fa-eye toggle-password"
+                                                data-target="register-confirm-senha"></i>
+                                        </div>
+                                        <p class="text-danger" id="confirmPassword"></p>
+                                    </div>
+                                </div>
+
+                                <div class="text-center mb-3">
+                                    <input class="btn button" id="register" type="submit" value="Cadastrar" disabled>
+                                </div>
+                                <p class="">Já tem conta? <a href="#" id="link-to-login-from-register">Clique aqui</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            const $flipper = $('.flipper');
+            const $linkForgotPassword = $('#link-forgot-password');
+            const $linkRegister = $('#link-register');
+            const $linkToLoginFromPassword = $('#link-to-login-from-password');
+            const $linkToLoginFromRegister = $('#link-to-login-from-register');
+            const $backContents = $('.back-content');
+
+            function flipToBack(contentId) {
+                $backContents.removeClass('active');
+                $('#' + contentId).addClass('active');
+                $flipper.addClass('flipped');
+            }
+
+            function flipToFront(e) {
+                e.preventDefault();
+
+                $flipper.removeClass('flipped');
+
+                setTimeout(() => {
+                    $backContents.removeClass('active');
+                }, 800);
+            }
+
+            $linkForgotPassword.on('click', function (e) {
+                e.preventDefault();
+                flipToBack('forgotPasswordForm');
+            });
+
+            $linkRegister.on('click', function (e) {
+                e.preventDefault();
+                flipToBack('registerForm');
+            });
+
+            $linkToLoginFromPassword.on('click', flipToFront);
+            $linkToLoginFromRegister.on('click', flipToFront);
+
+            $('.toggle-password').on('click', function () {
+                const targetId = $(this).data('target');
+                const $passwordInput = $('#' + targetId);
+
+                const currentType = $passwordInput.attr('type');
+
+                if (currentType === 'password') {
+                    $passwordInput.attr('type', 'text');
+                    $(this).removeClass('fa-eye').addClass('fa-eye-slash');
+                } else {
+                    $passwordInput.attr('type', 'password');
+                    $(this).removeClass('fa-eye-slash').addClass('fa-eye');
+                }
+            });
+
+            $('.password').on('input', function () {
+                const password = $('#register-senha').val();
+                const confirmPassword = $('#register-confirm-senha').val();
+
+                if (password != confirmPassword) {
+                    $('#confirmPassword').html("As senhas não são iguais");
+                    $('#register').prop('disabled', true);
+                } else {
+                    $('#confirmPassword').html("");
+                    $('#register').prop('disabled', false);
+                }
+
+            });
+        });
+    </script>
+
+</body>
+
+</html>
